@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using HiveBuffet.API.Middlewares;
+using Microsoft.OpenApi.Models;
 
 namespace HiveBuffet.API.Extensions;
 
@@ -28,5 +29,7 @@ public static class WebApplicationBuilderExtensions
                 }
             });
         });
+
+        builder.Services.AddScoped<ErrorHandlingMiddleware>();
     }
 }

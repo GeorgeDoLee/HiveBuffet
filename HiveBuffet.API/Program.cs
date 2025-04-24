@@ -1,4 +1,5 @@
 using HiveBuffet.API.Extensions;
+using HiveBuffet.API.Middlewares;
 using HiveBuffet.Application.Extensions;
 using HiveBuffet.Domain.Entities;
 using HiveBuffet.Infrastructure.Extensions;
@@ -28,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
