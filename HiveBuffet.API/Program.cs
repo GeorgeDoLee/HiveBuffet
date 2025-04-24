@@ -1,11 +1,25 @@
+using HiveBuffet.API.Extensions;
+using HiveBuffet.Domain.Entities;
+using HiveBuffet.Infrastructure.Extensions;
+using HiveBuffet.Infrastructure.Persistance;
+using HiveBuffet.Infrastructure.Seeders;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.AddPresentation();
+builder.Services.AddIdentityApiEndpoints<User>()
+        .AddRoles<IdentityRole<int>>()
+        .AddEntityFrameworkStores<UserDbContext>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<ISeeder>();
+    await seeder.SeedAsync();
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -14,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapGroup("api/").MapIdentityApi<User>();
 
 app.UseAuthorization();
 
