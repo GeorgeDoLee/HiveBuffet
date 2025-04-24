@@ -7,7 +7,7 @@ public interface IService<T>
 
     Task<IEnumerable<T>> GetAllAsync();
 
-    Task AddAsync(T dto);
+    Task<T> AddAsync(T dto);
 
     Task UpdateAsync(T dto);
 

@@ -32,12 +32,14 @@ internal class MealService : IMealService
         return meals.Adapt<List<MealDto>>();
     }
 
-    public async Task AddAsync(MealDto dto)
+    public async Task<MealDto> AddAsync(MealDto dto)
     {
         var meal = dto.Adapt<Meal>();
 
         await _unitOfWork.Meals.AddAsync(meal);
         await _unitOfWork.Complete();
+
+        return meal.Adapt<MealDto>();
     }
 
     public async Task UpdateAsync(MealDto dto)
