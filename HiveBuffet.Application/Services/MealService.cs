@@ -48,7 +48,7 @@ internal class MealService : IMealService
 
         Guard.ThrowIfNull(meal, dto.Id.ToString(), "meal");
 
-        meal = dto.Adapt<Meal>();
+        dto.Adapt(meal);
 
         await _unitOfWork.Complete();
     }
