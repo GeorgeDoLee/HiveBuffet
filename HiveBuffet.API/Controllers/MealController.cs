@@ -9,10 +9,12 @@ namespace HiveBuffet.API.Controllers;
 public class MealController : ControllerBase
 {
     private readonly IMealService _mealService;
+    private readonly IFileService _fileService;
 
-    public MealController(IMealService mealService)
+    public MealController(IMealService mealService, IFileService fileService)
     {
         _mealService = mealService;
+        _fileService = fileService;
     }
 
     [HttpGet]
@@ -68,6 +70,46 @@ public class MealController : ControllerBase
     public async Task<IActionResult> RemoveMeal(int id)
     {
         await _mealService.DeleteAsync(id);
+        return NoContent();
+    }
+
+    [HttpPost("{id}/image")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UploadMealImage(
+            [FromRoute] int id,
+            IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("no file uploaded.");
+        }
+
+        _ = await _mealService.GetByIdAsync(id);
+
+        var imagePath = await _fileService.UploadImageAsync(file);
+
+        await _mealService.SetImageUrlAsync(id, imagePath);
+
+        return Ok(imagePath);
+    }
+
+    [HttpDelete("{id}/image")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteMealImage(int id)
+    {
+        var meal = await _mealService.GetByIdAsync(id);
+
+        if (!string.IsNullOrWhiteSpace(meal.ImageUrl))
+        {
+            var fileName = Path.GetFileName(meal.ImageUrl);
+
+            _fileService.DeleteImage(fileName);
+            await _mealService.ClearImageUrlAsync(id);
+        }
+
         return NoContent();
     }
 }

@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddApplication();
+builder.Services.AddApplication(uploadsFolder);
 builder.AddPresentation();
 builder.Services.AddIdentityApiEndpoints<User>()
         .AddRoles<IdentityRole<int>>()
@@ -30,7 +32,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(policy =>
+    policy.AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader());
+
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

@@ -7,6 +7,7 @@ public static class WebApplicationBuilderExtensions
 {
     public static void AddPresentation(this WebApplicationBuilder builder)
     {
+        builder.Services.AddCors();
         builder.Services.AddAuthentication();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

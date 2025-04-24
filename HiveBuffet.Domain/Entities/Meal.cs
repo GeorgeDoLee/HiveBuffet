@@ -4,7 +4,9 @@ public class Meal
 {
     public int Id { get; set; }
 
-    public required String Name { get; set; }
+    public required string Name { get; set; }
 
-    public String? Description { get; set; }
+    public string? Description { get; set; }
+
+    public string? ImageUrl { get; set; }
 }

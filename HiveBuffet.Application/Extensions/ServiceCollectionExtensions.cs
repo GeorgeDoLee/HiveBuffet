@@ -6,8 +6,12 @@ namespace HiveBuffet.Application.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddApplication(this IServiceCollection services)
+    public static void AddApplication(
+        this IServiceCollection services,
+        string uploadsFolder)
     {
         services.AddScoped<IMealService, MealService>();
+        
+        services.AddScoped<IFileService>(_ => new FileService(uploadsFolder));
     }
 }

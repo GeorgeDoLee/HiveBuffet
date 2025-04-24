@@ -48,7 +48,8 @@ internal class MealService : IMealService
 
         Guard.ThrowIfNull(meal, dto.Id.ToString(), "meal");
 
-        dto.Adapt(meal);
+        meal!.Name = dto.Name;
+        meal.Description = dto.Description;
 
         await _unitOfWork.Complete();
     }
@@ -60,6 +61,26 @@ internal class MealService : IMealService
         Guard.ThrowIfNull(meal, id.ToString(), "meal");
 
         _unitOfWork.Meals.Remove(meal!);
+        await _unitOfWork.Complete();
+    }
+
+    public async Task SetImageUrlAsync(int id, string imageUrl)
+    {
+        var meal = await _unitOfWork.Meals.GetAsync(id);
+
+        Guard.ThrowIfNull(meal, id.ToString(), "meal");
+
+        meal!.ImageUrl = imageUrl;
+
+        await _unitOfWork.Complete();
+    }
+
+    public async Task ClearImageUrlAsync(int id)
+    {
+        var meal = await _unitOfWork.Meals.GetAsync(id);
+        Guard.ThrowIfNull(meal, id.ToString(), "meal");
+
+        meal!.ImageUrl = null;
         await _unitOfWork.Complete();
     }
 }
