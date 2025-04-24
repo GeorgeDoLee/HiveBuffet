@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HiveBuffet.Infrastructure.Migrations.HiveBuffetDb
 {
     [DbContext(typeof(HiveBuffetDbContext))]
-    [Migration("20250424081931_Initial")]
-    partial class Initial
+    [Migration("20250424142531_RestartInitial")]
+    partial class RestartInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,9 +35,15 @@ namespace HiveBuffet.Infrastructure.Migrations.HiveBuffetDb
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

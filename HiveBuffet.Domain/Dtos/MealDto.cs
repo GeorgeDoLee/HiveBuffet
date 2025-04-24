@@ -8,5 +8,7 @@ public class MealDto
 
     public string? Description { get; set; }
 
+    public required decimal Price { get; set; }
+
     public string? ImageUrl { get; set; }
 }

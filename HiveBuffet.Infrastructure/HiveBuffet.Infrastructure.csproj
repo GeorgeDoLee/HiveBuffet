@@ -22,4 +22,8 @@
     <ProjectReference Include="..\HiveBuffet.Domain\HiveBuffet.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\HiveBuffetDb\" />
+  </ItemGroup>
+
 </Project>

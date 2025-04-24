@@ -50,6 +50,7 @@ internal class MealService : IMealService
 
         meal!.Name = dto.Name;
         meal.Description = dto.Description;
+        meal.Price = dto.Price;
 
         await _unitOfWork.Complete();
     }

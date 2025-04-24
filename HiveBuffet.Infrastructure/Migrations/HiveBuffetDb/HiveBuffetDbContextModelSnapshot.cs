@@ -39,6 +39,9 @@ namespace HiveBuffet.Infrastructure.Migrations.HiveBuffetDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Meals");
