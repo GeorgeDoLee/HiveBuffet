@@ -43,7 +43,7 @@ app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
-app.MapGroup("api/").MapIdentityApi<User>();
+app.MapGroup("api/Identity").MapIdentityApi<User>();
 
 app.UseAuthorization();
 
