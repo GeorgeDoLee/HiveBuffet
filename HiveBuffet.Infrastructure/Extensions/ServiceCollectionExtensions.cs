@@ -1,4 +1,5 @@
-﻿using HiveBuffet.Infrastructure.Persistance;
+﻿using HiveBuffet.Domain.Interfaces;
+using HiveBuffet.Infrastructure.Persistance;
 using HiveBuffet.Infrastructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,11 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"))
         );
 
+        services.AddDbContext<HiveBuffetDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+        );
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ISeeder, Seeder>();
     }
 }

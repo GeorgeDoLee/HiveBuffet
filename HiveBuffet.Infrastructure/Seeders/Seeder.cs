@@ -1,5 +1,6 @@
 ﻿using HiveBuffet.Domain.Constants;
 using HiveBuffet.Domain.Entities;
+using HiveBuffet.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 
@@ -9,16 +10,25 @@ internal class Seeder : ISeeder
 {
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<IdentityRole<int>> _roleManager;
+    private readonly HiveBuffetDbContext _context;
 
     public Seeder(
         UserManager<User> userManager,
-        RoleManager<IdentityRole<int>> roleManager)
+        RoleManager<IdentityRole<int>> roleManager,
+        HiveBuffetDbContext context)
     {
         _userManager = userManager;
         _roleManager = roleManager;
+        _context = context;
     }
 
     public async Task SeedAsync()
+    {
+        await SeedUser();
+        await SeedMeals();
+    }
+
+    private async Task SeedUser()
     {
         const string defaultUsername = "admin";
         const string defaultPassword = "Password1@";
@@ -47,6 +57,15 @@ internal class Seeder : ISeeder
         if (!await _userManager.IsInRoleAsync(user, UserRoles.Admin))
         {
             await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+        }
+    }
+
+    private async Task SeedMeals()
+    {
+        if (!_context.Meals.Any())
+        {
+            await _context.Meals.AddRangeAsync(DummyData.Meals);
+            await _context.SaveChangesAsync();
         }
     }
 }
