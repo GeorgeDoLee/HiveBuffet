@@ -1,4 +1,5 @@
 using HiveBuffet.API.Extensions;
+using HiveBuffet.Application.Extensions;
 using HiveBuffet.Domain.Entities;
 using HiveBuffet.Infrastructure.Extensions;
 using HiveBuffet.Infrastructure.Persistance;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 builder.AddPresentation();
 builder.Services.AddIdentityApiEndpoints<User>()
         .AddRoles<IdentityRole<int>>()

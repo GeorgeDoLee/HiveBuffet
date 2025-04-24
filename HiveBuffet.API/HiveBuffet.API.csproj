@@ -15,8 +15,4 @@
     <ProjectReference Include="..\HiveBuffet.Application\HiveBuffet.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
