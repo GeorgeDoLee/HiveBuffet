@@ -30,7 +30,7 @@ public class MealController : ControllerBase
     [HttpGet("{id}", Name = nameof(GetMealById))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<MealDto>> GetMealById(int id)
+    public async Task<ActionResult<MealDto>> GetMealById([FromRoute]int id)
     {
         var meal = await _mealService.GetByIdAsync(id);
         return Ok(meal);
@@ -41,7 +41,7 @@ public class MealController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<MealDto>> AddMeal([FromBody] MealDto dto)
+    public async Task<ActionResult<MealDto>> AddMeal([FromBody]MealDto dto)
     {
         if (dto == null) return BadRequest();
 
@@ -61,7 +61,7 @@ public class MealController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateMeal(
-        int id,
+        [FromRoute]int id,
         [FromBody] MealDto dto)
     {
         if (dto == null || dto.Id != id) return BadRequest();
@@ -75,7 +75,7 @@ public class MealController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> RemoveMeal(int id)
+    public async Task<IActionResult> RemoveMeal([FromRoute]int id)
     {
         await _mealService.DeleteAsync(id);
         return NoContent();
@@ -110,7 +110,7 @@ public class MealController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteMealImage(int id)
+    public async Task<IActionResult> DeleteMealImage([FromRoute]int id)
     {
         var meal = await _mealService.GetByIdAsync(id);
 
