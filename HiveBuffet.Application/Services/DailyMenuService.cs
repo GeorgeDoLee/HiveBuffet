@@ -18,7 +18,7 @@ internal class DailyMenuService : IDailyMenuService
 
     public async Task<IEnumerable<MealDto>> GetDailyMenuMealsByDayAsync(DayOfWeek dayOfWeek)
     {
-        var dailyMenu = await FindDailyMenuByDay(dayOfWeek);
+        var dailyMenu = await FindDailyMenuByDayAsync(dayOfWeek);
 
         var dailyMenuMeals = await _unitOfWork.DailyMenus
             .GetDailyMenuMealsByDayAsync(dailyMenu!.Id);
@@ -28,9 +28,13 @@ internal class DailyMenuService : IDailyMenuService
 
     public async Task AddMealToDailyMenuAsync(DayOfWeek dayOfWeek, int mealId)
     {
-        var dailyMenu = await FindDailyMenuByDay(dayOfWeek);
+        var dailyMenu = await FindDailyMenuByDayAsync(dayOfWeek);
 
-        var dailyMenuMeal = new DailyMenuMeal
+        var dailyMenuMeal = await FindDailyMenuMealAsync(dailyMenu.Id, mealId);
+
+        if (dailyMenuMeal != null) return;
+
+        dailyMenuMeal = new DailyMenuMeal
         {
             MealId = mealId,
             DailyMenuId = dailyMenu!.Id
@@ -40,20 +44,19 @@ internal class DailyMenuService : IDailyMenuService
         await _unitOfWork.Complete();
     }
 
-
     public async Task RemoveMealFromDailyMenuAsync(DayOfWeek dayOfWeek, int mealId)
     {
-        var dailyMenu = await FindDailyMenuByDay(dayOfWeek);
+        var dailyMenu = await FindDailyMenuByDayAsync(dayOfWeek);
 
-        var dailyMenuMeal = await _unitOfWork.DailyMenuMeals
-            .FindFirstAsync(dmm => dmm.DailyMenuId == dailyMenu!.Id && dmm.MealId == mealId);
+        var dailyMenuMeal = await FindDailyMenuMealAsync(dailyMenu.Id, mealId);
 
         Guard.ThrowIfNull(dailyMenuMeal, "daily menu meal");
 
         _unitOfWork.DailyMenuMeals.Remove(dailyMenuMeal!);
+        await _unitOfWork.Complete();
     }
 
-    private async Task<DailyMenu> FindDailyMenuByDay(DayOfWeek dayOfWeek)
+    private async Task<DailyMenu> FindDailyMenuByDayAsync(DayOfWeek dayOfWeek)
     {
         var dailyMenu = await _unitOfWork.DailyMenus
             .FindFirstAsync(dm => dm.DayOfWeek == dayOfWeek);
@@ -61,5 +64,11 @@ internal class DailyMenuService : IDailyMenuService
         Guard.ThrowIfNull(dailyMenu, dayOfWeek.ToString(), "daily menu");
 
         return dailyMenu!;
+    }
+
+    private async Task<DailyMenuMeal?> FindDailyMenuMealAsync(int dailyMenuId, int mealId)
+    {
+        return await _unitOfWork.DailyMenuMeals
+            .FindFirstAsync(dmm => dmm.DailyMenuId == dailyMenuId && dmm.MealId == mealId);
     }
 }
