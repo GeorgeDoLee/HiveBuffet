@@ -51,6 +51,7 @@ internal class MealService : IMealService
         meal!.Name = dto.Name;
         meal.Description = dto.Description;
         meal.Price = dto.Price;
+        meal.UpdatedAt = DateTime.UtcNow;
 
         await _unitOfWork.Complete();
     }
@@ -72,6 +73,7 @@ internal class MealService : IMealService
         Guard.ThrowIfNull(meal, id.ToString(), "meal");
 
         meal!.ImageUrl = imageUrl;
+        meal.UpdatedAt = DateTime.UtcNow;
 
         await _unitOfWork.Complete();
     }
@@ -82,6 +84,8 @@ internal class MealService : IMealService
         Guard.ThrowIfNull(meal, id.ToString(), "meal");
 
         meal!.ImageUrl = null;
+        meal.UpdatedAt = DateTime.UtcNow;
+
         await _unitOfWork.Complete();
     }
 }
