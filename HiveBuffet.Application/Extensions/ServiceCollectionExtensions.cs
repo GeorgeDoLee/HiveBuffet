@@ -10,8 +10,9 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         string uploadsFolder)
     {
-        services.AddScoped<IMealService, MealService>();
-        
         services.AddScoped<IFileService>(_ => new FileService(uploadsFolder));
+
+        services.AddScoped<IMealService, MealService>();
+        services.AddScoped<IDailyMenuService, DailyMenuService>();
     }
 }
