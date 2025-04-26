@@ -2,11 +2,7 @@
 
 namespace HiveBuffet.Domain.Interfaces;
 
-public interface IDailyMenuRepository
+public interface IDailyMenuRepository : IRepository<DailyMenu>
 {
-    Task AddMealToDailyMenuAsync(DayOfWeek dayOfWeek, Meal meal);
-
-    Task<List<DailyMenuMeal>> GetDailyMenuMealsByDayAsync(DayOfWeek dayOfWeek);
-
-    Task RemoveMealFromDailyMenuAsync(DayOfWeek dayOfWeek, Meal meal);
+    Task<IEnumerable<Meal>> GetDailyMenuMealsByDayAsync(int dailyMenuId);
 }

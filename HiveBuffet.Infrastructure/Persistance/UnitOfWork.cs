@@ -12,11 +12,14 @@ internal class UnitOfWork : IUnitOfWork
         _context = todoListDbContext;
         Meals = new MealRepository(_context);
         DailyMenus = new DailyMenuRepository(_context);
+        DailyMenuMeals = new DailyMenuMealRepository(_context);
     }
 
     public IMealRepository Meals { get; }
 
-    public IDailyMenuRepository DailyMenus { get;  }
+    public IDailyMenuRepository DailyMenus { get; }
+
+    public IDailyMenuMealRepository DailyMenuMeals { get; }
 
     public async Task Complete()
     {
