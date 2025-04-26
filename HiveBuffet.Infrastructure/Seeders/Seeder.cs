@@ -25,7 +25,9 @@ internal class Seeder : ISeeder
     public async Task SeedAsync()
     {
         await SeedUser();
-        await SeedMeals();
+        await Seed<Meal>(DummyData.Meals);
+        await Seed<DailyMenu>(DummyData.DailyMenus);
+        await Seed<DailyMenuMeal>(DummyData.DailyMenuMeals);
     }
 
     private async Task SeedUser()
@@ -60,11 +62,12 @@ internal class Seeder : ISeeder
         }
     }
 
-    private async Task SeedMeals()
+    private async Task Seed<T>(IEnumerable<T> dummyData) 
+        where T : class
     {
-        if (!_context.Meals.Any())
+        if (!_context.Set<T>().Any())
         {
-            await _context.Meals.AddRangeAsync(DummyData.Meals);
+            await _context.Set<T>().AddRangeAsync(dummyData);
             await _context.SaveChangesAsync();
         }
     }

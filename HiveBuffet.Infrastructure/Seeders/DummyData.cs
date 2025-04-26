@@ -67,4 +67,67 @@ internal static class DummyData
             Price = 9.99m
         }
     };
+
+    internal static List<DailyMenu> DailyMenus = new List<DailyMenu>
+    {
+        new DailyMenu
+        {
+            DayOfWeek = DayOfWeek.Monday
+        },
+        new DailyMenu
+        {
+            DayOfWeek = DayOfWeek.Tuesday
+        },
+        new DailyMenu
+        {
+            DayOfWeek = DayOfWeek.Wednesday
+        },
+        new DailyMenu
+        {
+            DayOfWeek = DayOfWeek.Thursday
+        },
+        new DailyMenu
+        {
+            DayOfWeek = DayOfWeek.Friday
+        },
+        new DailyMenu
+        {
+            DayOfWeek = DayOfWeek.Saturday
+        },
+        new DailyMenu
+        {
+            DayOfWeek = DayOfWeek.Sunday
+        }
+    };
+
+    internal static List<DailyMenuMeal> DailyMenuMeals = new List<DailyMenuMeal>
+    {
+        new DailyMenuMeal { DailyMenuId = 1, MealId = 1 },
+        new DailyMenuMeal { DailyMenuId = 1, MealId = 2 },
+        new DailyMenuMeal { DailyMenuId = 1, MealId = 6 },
+
+        new DailyMenuMeal { DailyMenuId = 2, MealId = 3 },
+        new DailyMenuMeal { DailyMenuId = 2, MealId = 4 },
+        new DailyMenuMeal { DailyMenuId = 2, MealId = 7 },
+
+        new DailyMenuMeal { DailyMenuId = 3, MealId = 5 },
+        new DailyMenuMeal { DailyMenuId = 3, MealId = 8 },
+        new DailyMenuMeal { DailyMenuId = 3, MealId = 9 },
+
+        new DailyMenuMeal { DailyMenuId = 4, MealId = 1 },
+        new DailyMenuMeal { DailyMenuId = 4, MealId = 5 },
+        new DailyMenuMeal { DailyMenuId = 4, MealId = 10 },
+
+        new DailyMenuMeal { DailyMenuId = 5, MealId = 2 },
+        new DailyMenuMeal { DailyMenuId = 5, MealId = 3 },
+        new DailyMenuMeal { DailyMenuId = 5, MealId = 7 },
+
+        new DailyMenuMeal { DailyMenuId = 6, MealId = 4 },
+        new DailyMenuMeal { DailyMenuId = 6, MealId = 8 },
+        new DailyMenuMeal { DailyMenuId = 6, MealId = 9 },
+
+        new DailyMenuMeal { DailyMenuId = 7, MealId = 6 },
+        new DailyMenuMeal { DailyMenuId = 7, MealId = 7 },
+        new DailyMenuMeal { DailyMenuId = 7, MealId = 10 }
+    };
 }
