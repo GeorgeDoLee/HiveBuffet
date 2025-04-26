@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HiveBuffet.Infrastructure.Persistance;
 
-internal class HiveBuffetDbContext : DbContext
+public class HiveBuffetDbContext : DbContext
 {
     public HiveBuffetDbContext(DbContextOptions<HiveBuffetDbContext> options)
         : base(options)

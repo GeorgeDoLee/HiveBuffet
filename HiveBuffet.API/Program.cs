@@ -6,6 +6,7 @@ using HiveBuffet.Infrastructure.Extensions;
 using HiveBuffet.Infrastructure.Persistance;
 using HiveBuffet.Infrastructure.Seeders;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,14 @@ builder.Services.AddIdentityApiEndpoints<User>()
         .AddEntityFrameworkStores<UserDbContext>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var userContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+    var hiveContext = scope.ServiceProvider.GetRequiredService<HiveBuffetDbContext>();
+    userContext.Database.Migrate();
+    hiveContext.Database.Migrate();
+}
 
 using (var scope = app.Services.CreateScope())
 {
